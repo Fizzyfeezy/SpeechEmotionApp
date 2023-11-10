@@ -3,15 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real-time Emotion Recognition</title>
+    <title>Speech Emotion Recognition System</title>
     <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='upload.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-1234...." crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h1>Real-time Emotion Recognition</h1>
-    <button id="startButton">Start Recognition</button>
-    <div id="speechResult"></div>
-    <div id="emotionResult"></div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <h1 class="title">Speech Emotion Recognition System</h1>
+    <div class="card">
+        <div class="card-text">Upload Audio</div>
+        <div class="additional-text">Upload the speech emotion you want to analyze</div>
+        <div class="rectangle" id="dropArea">
+            <div class="upload_svg">
+                <img src="{{ url_for('static', filename='img/upload.svg') }}" alt="Upload SVG Image" id="selectAudio">
+            </div>
+            <div class="text" id="dragText">Drag and drop audio here</div>
+            <div class="separator">- OR -</div>
+            <input type="file" id="fileInput" style="display: none;" accept=".wav, .mp3">
+            <button class="browse-button" id="browseButton">Browse Audio</button>
+        </div>
+        <div class="second-rectangle" style="display: none;">
+            <div class="second-rectangle-text">Selected Audio</div>
+            <div class="image-container" id="clearContent">
+                <img src="{{ url_for('static', filename='img/cancel.svg') }}" alt="Image">
+            </div>
+            <div class="inner-rectangle">
+                <img id="playAudio" src="{{ url_for('static', filename='img/speaker.svg') }}" alt="Inner Image">       
+                <div id="playAudioOverlay" class="overlay"></div>                          
+                <audio id="selectedAudio" controls style="display: none;">
+                    <source id="audioSource" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>                              
+                <div class="inner-text" id="innerText">Speech001.wav (100%)</div>
+                <div class="completed-text" style="display: none;">Completed</div>
+                <div class="stationary-border-line"></div>
+                <div class="border-line"></div>
+            </div>
+            <button class="analyze-button">Analyze Audio</button>
+            <div class="predicted-emotion-text">Predicted Emotion</div>
+            <div class="predicted-emotion">
+                <div class="predicted-emotion-image">
+                    <img id="emotionImage" alt="Predicted Emotion Image">
+                </div>
+                <div id="predictionResult"></div>
+            </div>
+        </div>        
+    </div>
+    <script src="{{ url_for('static', filename='custom.js') }}"></script>
 </body>
 </html>

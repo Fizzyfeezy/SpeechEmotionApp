@@ -52,13 +52,10 @@ def preprocess_audio(audio_path):
         print('Error preprocessing audio:', str(e))
         return None
 
-@app.route('/')
-def index():
-    return render_template('index.html')
 
-@app.route('/upload')
+@app.route('/')
 def upload_emotions():
-    return render_template('upload.html')
+    return render_template('index.html')
 
 # Define an endpoint for emotion recognition
 @app.route('/recognize-emotion', methods=['POST'])
