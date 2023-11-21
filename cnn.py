@@ -103,7 +103,7 @@ def process_predictions(predictions):
 
     # Define the emotion labels corresponding to the classes
     # emotion_labels = ["sadness", "happiness", "fear", "neutral", "boredom", "disgust"]
-    emotion_labels = ['angry', 'boredom', 'breath', 'disgust', 'excited', 'fear', 'happy', 'neutral', 'sad', 'surprised']
+    emotion_labels = ['angry', 'boredom', 'breath', 'dissapointment', 'disgust', 'excited', 'fear', 'happy', 'neutral', 'pain', 'pleasure', 'sad', 'surprised']
 
     # Get the index of the class with the highest probability (argmax)
     max_probability_index = np.argmax(predictions)
