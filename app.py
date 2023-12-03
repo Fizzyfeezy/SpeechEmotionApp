@@ -11,7 +11,7 @@ from scipy.io.wavfile import WavFileWarning
 app = Flask(__name__, template_folder='templates')
 
 # Define the path to your TensorFlow.js model
-model_path = '/Users/oyelamiabdulhafeez/desktop/big data analytics/projects/assignment/dissertation/cnns_model'
+model_path = os.path.join(os.path.dirname(__file__), 'model', 'cnns_model')
 
 # Load your TensorFlow.js model
 model = tf.keras.models.load_model(model_path)
