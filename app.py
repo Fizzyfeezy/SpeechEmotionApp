@@ -13,25 +13,11 @@ app = Flask(__name__, template_folder='templates')
 # Define the path to your TensorFlow.js model
 model_path = '/Users/oyelamiabdulhafeez/desktop/big data analytics/projects/assignment/dissertation/cnns_model'
 
-# Load your TensorFlow.js model with the modified input shape
-# Define a custom layer for input shape compatibility
-class CustomLayer(tf.keras.layers.Layer):
-    def __init__(self, **kwargs):
-        super(CustomLayer, self).__init__(**kwargs)
+# Load your TensorFlow.js model
+model = tf.keras.models.load_model(model_path)
 
-    def call(self, inputs):
-        return inputs
-
-# Create the modified model
-model = tf.keras.Sequential([
-    CustomLayer(input_shape=(None, 13)),
-    tf.keras.layers.LSTM(64, return_sequences=True),
-    tf.keras.layers.LSTM(64, return_sequences=True),
-    tf.keras.layers.Dense(6, activation='softmax')
-])
-
-# Load the model weights
-model.load_weights(os.path.join(model_path, 'model_weights.h5'))
+# Define the target input shape expected by the model
+target_input_shape = (1116, 13)
 
 # Define a function to preprocess audio data by calculating MFCCs
 def preprocess_audio(audio_path):
@@ -42,8 +28,21 @@ def preprocess_audio(audio_path):
         # Read the WAV audio data
         sample_rate, audio_data = wavfile.read(audio_path)
         
-        # Calculate MFCCs using the 'python_speech_features' library
+        # Calculate MFCCs using the 'mfcc' library
         mfcc_data = psf.mfcc(audio_data, samplerate=sample_rate, winlen=0.040, winstep=0.015, numcep=13, nfilt=26, nfft=2048)
+
+        # Pad or truncate the data to match the target input shape
+        if mfcc_data.shape[0] < target_input_shape[0]:
+            padding = target_input_shape[0] - mfcc_data.shape[0]
+            mfcc_data = np.pad(mfcc_data, ((0, padding), (0, 0)), mode='constant')
+        elif mfcc_data.shape[0] > target_input_shape[0]:
+            mfcc_data = mfcc_data[:target_input_shape[0], :]
+
+        if mfcc_data.shape[1] < target_input_shape[1]:
+            padding = target_input_shape[1] - mfcc_data.shape[1]
+            mfcc_data = np.pad(mfcc_data, ((0, 0), (0, padding)), mode='constant')
+        elif mfcc_data.shape[1] > target_input_shape[1]:
+            mfcc_data = mfcc_data[:, :target_input_shape[1]]
         
         # Reshape the data to match the input shape expected by the model
         mfcc_data = np.expand_dims(mfcc_data, axis=0)
@@ -53,8 +52,9 @@ def preprocess_audio(audio_path):
         print('Error preprocessing audio:', str(e))
         return None
 
+
 @app.route('/')
-def index():
+def upload_emotions():
     return render_template('index.html')
 
 # Define an endpoint for emotion recognition
@@ -102,7 +102,8 @@ def process_predictions(predictions):
     # Example: [0.1, 0.7, 0.2, 0.05, 0.02, 0.01] where each value corresponds to an emotion class
 
     # Define the emotion labels corresponding to the classes
-    emotion_labels = ["sadness", "happiness", "fear", "neutral", "boredom", "disgust"]
+    # emotion_labels = ["sadness", "happiness", "fear", "neutral", "boredom", "disgust"]
+    emotion_labels = ['angry', 'boredom', 'breath', 'dissapointment', 'disgust', 'excited', 'fear', 'happy', 'neutral', 'pain', 'pleasure', 'sad', 'surprised']
 
     # Get the index of the class with the highest probability (argmax)
     max_probability_index = np.argmax(predictions)
@@ -113,4 +114,4 @@ def process_predictions(predictions):
     return predicted_emotion
 
 if __name__ == '__main__':
-    app.run(debug=True)  # You can set debug=False for production use
+    app.run(debug=True)
