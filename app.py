@@ -6,7 +6,8 @@ import numpy as np
 import tensorflow as tf
 import python_speech_features as psf
 from scipy.io import wavfile
-from scipy.io.wavfile import WavFileWarning 
+from scipy.io.wavfile import WavFileWarning
+from pydub import AudioSegment
 
 app = Flask(__name__, template_folder='templates')
 
@@ -17,7 +18,11 @@ model_path = os.path.join(os.path.dirname(__file__), 'model', 'cnns_model')
 model = tf.keras.models.load_model(model_path)
 
 # Define the target input shape expected by the model
-target_input_shape = (1116, 13)
+target_input_shape = (2700, 13)
+
+def convert_to_wav(input_path, output_path):
+    audio = AudioSegment.from_file(input_path)
+    audio.export(output_path, format="wav")
 
 # Define a function to preprocess audio data by calculating MFCCs
 def preprocess_audio(audio_path):
@@ -25,8 +30,12 @@ def preprocess_audio(audio_path):
         # Suppress the WavFileWarning
         warnings.filterwarnings("ignore", category=WavFileWarning)
 
+        # Convert any audio file to WAV
+        temp_wav_path = 'temp_audio.wav'
+        convert_to_wav(audio_path, temp_wav_path)
+
         # Read the WAV audio data
-        sample_rate, audio_data = wavfile.read(audio_path)
+        sample_rate, audio_data = wavfile.read(temp_wav_path)
         
         # Calculate MFCCs using the 'mfcc' library
         mfcc_data = psf.mfcc(audio_data, samplerate=sample_rate, winlen=0.040, winstep=0.015, numcep=13, nfilt=26, nfft=2048)
@@ -68,11 +77,11 @@ def recognize_emotion():
         audio_file = request.files['audio']
         
         # Ensure the file has a supported extension (e.g., .wav)
-        if not audio_file.filename.endswith(('.wav', '.mp3')):
+        if not audio_file.filename.endswith(('.wav', '.mp3', '.m4a')):
             return jsonify({'error': 'Unsupported file format'}), 400
         
-        # Save the uploaded audio file temporarily
-        temp_audio_path = 'temp_audio.wav'
+        # Save the uploaded audio file temporarily with its original extension
+        temp_audio_path = 'temp_audio' + os.path.splitext(audio_file.filename)[1]
         audio_file.save(temp_audio_path)
         
         # Preprocess the audio data

@@ -43,6 +43,8 @@ document.addEventListener('DOMContentLoaded', function () {
     analyzeButton.classList.remove('animate');
     fileInput.value = '';
     playAudio.style.filter = "brightness(100%)"
+    selectedAudio.pause();
+    selectedAudio.currentTime = 0;
   }
 
   function clearPredictedEmotionElements() {
@@ -119,14 +121,33 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  function stopAudio() {
+    if (selectedAudio) {
+      selectedAudio.pause();
+      selectedAudio.currentTime = 0;
+    }
+  }
+
   playAudioOverlay.addEventListener("click", () => {
     playSelectedAudio();
   });
 
   // Add a click event listener to the "playAudio" image
+  // playAudio.addEventListener("click", () => {
+  //   playSelectedAudio();
+  //   playAudio.src = `/static/img/${grayImage}`;
+  // });
+
   playAudio.addEventListener("click", () => {
-    playSelectedAudio();
-    playAudio.src = `/static/img/${grayImage}`;
+    if (!selectedAudio || selectedAudio.paused) {
+      // Start playing audio
+      playSelectedAudio();
+      playAudio.src = `/static/img/${grayImage}`;
+    } else {
+      // Stop playing audio
+      stopAudio();
+      playAudio.src = `/static/img/${blueImage}`;
+    }
   });
 
   selectedAudio.addEventListener("ended", () => {
