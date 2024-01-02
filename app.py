@@ -103,7 +103,7 @@ def recognize_emotion():
         return jsonify({'emotion': predicted_emotion}), 200
     except Exception as e:
         print('Error recognizing emotion:', str(e))
-        return jsonify({'error': 'Something went wrong'}), 500
+        return jsonify({'error': 'Error in model prediction'}), 500
 
 # Define a function to process model predictions
 def process_predictions(predictions):
