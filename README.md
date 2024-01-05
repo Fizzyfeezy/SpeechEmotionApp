@@ -11,7 +11,7 @@ This repository contains the source code for a web application that performs Spe
   - **`images/`**: Folder for storing images used in the web application.
   - **`custom.js`**: Custom JavaScript file for client-side functionality.
   - **`upload.css`**: Cascading Style Sheets (CSS) file for styling file upload components.
-- **`saved_model/`**: Folder containing the saved machine learning model.
+- **`model/`**: Folder containing the saved machine learning model.
 - **`requirements.txt`**: File specifying the Python dependencies for the project.
 
 ## Running the Web Application
