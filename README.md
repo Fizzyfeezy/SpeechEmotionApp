@@ -65,9 +65,9 @@ To run the Speech Emotion Recognition Web Application locally, follow these step
 
 1. Navigate to the web application in your browser.
 
-2. Upload an audio file containing speech.
+2. Click on "Browse Audio" or drag and drop to upload an audio file containing speech.
 
-3. Click on the "Predict" button to analyze the speech and display the predicted emotion.
+3. Click on the "Analyze Audio" button to predict the speech and display the predicted emotion.
 
 ## Contributing
 
