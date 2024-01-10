@@ -1,3 +1,4 @@
+# Importing require module
 import os
 import warnings
 from flask import Flask, request, jsonify, render_template
@@ -11,10 +12,10 @@ from pydub import AudioSegment
 
 app = Flask(__name__, template_folder='templates')
 
-# Define the path to your TensorFlow.js model
+# Define the path to the TensorFlow.js model
 model_path = os.path.join(os.path.dirname(__file__), 'model', 'cnns_model')
 
-# Load your TensorFlow.js model
+# Load the TensorFlow.js model
 model = tf.keras.models.load_model(model_path)
 
 # Define the target input shape expected by the model

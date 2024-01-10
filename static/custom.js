@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+  // Variable declaration
   const fileInput = document.getElementById('fileInput');
   const browseButton = document.getElementById('browseButton');
   const innerText = document.getElementById('innerText');
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
     selectedAudio.pause();
     selectedAudio.currentTime = 0;
   }
-
+  // Function to clear predicted emotion elements
   function clearPredictedEmotionElements() {
     predictedEmotionText.style.display = 'none';
     predictedEmotionImage.style.display = 'none';
@@ -94,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
           imageContainer.style.display = 'block'; // Show the image container at 100%
           analyzeButton.style.display = 'block'; // Show the button
           analyzeButton.style.left = '0'; // Start sliding the button from right to left
-          analyzeButton.classList.add('animate');
+          analyzeButton.classList.add('animate'); // Animate the button
         }
       }, 20); // Adjust the interval timing for a faster update
     }
@@ -112,6 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
     fileInput.click();
   });
 
+  // Function to play Selected Audio
   function playSelectedAudio() {
     if (selectedFile) {
       const objectURL = URL.createObjectURL(selectedFile);
@@ -121,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  // Function to stop audio
   function stopAudio() {
     if (selectedAudio) {
       selectedAudio.pause();
