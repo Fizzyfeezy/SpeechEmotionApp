@@ -9,11 +9,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-1234...." crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
 <body>
     <h1 class="title">Speech Emotion Recognition System</h1>
+
     <div class="card">
         <div class="card-text">Upload Audio</div>
         <div class="additional-text">Upload the speech emotion you want to analyze</div>
+
         <div class="rectangle" id="dropArea">
             <div class="upload_svg">
                 <img src="{{ url_for('static', filename='img/upload.svg') }}" alt="Upload SVG Image" id="selectAudio">
@@ -23,11 +26,14 @@
             <input type="file" id="fileInput" style="display: none;" accept=".wav, .mp3, .m4a">
             <button class="browse-button" id="browseButton">Browse Audio</button>
         </div>
+
         <div class="second-rectangle" style="display: none;">
             <div class="second-rectangle-text">Selected Audio</div>
+
             <div class="image-container" id="clearContent">
                 <img src="{{ url_for('static', filename='img/cancel.svg') }}" alt="Image">
             </div>
+
             <div class="inner-rectangle">
                 <img id="playAudio" src="{{ url_for('static', filename='img/speaker.svg') }}" alt="Inner Image">       
                 <div id="playAudioOverlay" class="overlay"></div>                          
@@ -40,8 +46,11 @@
                 <div class="stationary-border-line"></div>
                 <div class="border-line"></div>
             </div>
+
             <button class="analyze-button">Analyze Audio</button>
+
             <div class="predicted-emotion-text">Predicted Emotion</div>
+            
             <div class="predicted-emotion">
                 <div class="predicted-emotion-image">
                     <img id="emotionImage" alt="Predicted Emotion Image">
@@ -50,6 +59,8 @@
             </div>
         </div>        
     </div>
+
     <script src="{{ url_for('static', filename='custom.js') }}"></script>
 </body>
+
 </html>
